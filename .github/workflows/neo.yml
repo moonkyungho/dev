@@ -52,7 +52,7 @@ jobs:
         run: docker ps
       - name: docker build
         run: |
-          cp ./build/*.war ./Dockerfile
+          cp ./build/libs/*.war ./Dockerfile
           docker build -t test ./Dockerfile
           docker images
      
