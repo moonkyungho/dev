@@ -8,9 +8,6 @@ on:
   push:
     branches: [ main ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -29,24 +26,29 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: echo
-        run: echo "This is checkout"
-        
+        run: echo "This is Checkout"
+
       - name: install jdk
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '11'
           cache: 'gradle'
-          run: |
-           chmod -x ./gradlew
-           ./gradlew build --no-daemon
+      
+      - name: chmod gradle
+        run: chmod +x ./gradlew
+        
+      - name: build
+        run: ./gradlew build --no-daemon
+        
       - name: check build
         run: ls ./build/libs
-           
-      -
-        name: Set up Docker Buildx
+        
+      - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1    
-
-
+        uses: docker/setup-buildx-action@v1
+        
+      - name: docker ps
+        run: docker ps
+     
           
