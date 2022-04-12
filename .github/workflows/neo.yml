@@ -31,10 +31,17 @@ jobs:
       - name: echo
         run: echo "This is checkout"
         
-        - name: install jdk
-          uses: actions/setup-java@v3
-          with:
-            distribution: 'temurin'
-            java-version: '11'
-            cache: 'gradle'
+      - name: install jdk
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'gradle'
+          run: |
+           chmod -x ./gradlew
+           ./gradlew build --no-daemon
+           
+      - name: check build
+        run: ls ./build/lib
+
           
