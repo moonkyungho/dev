@@ -78,8 +78,8 @@ jobs:
       - name: Cloud Storage Uploader
         uses: google-github-actions/get-gke-credentials@v0.7.0
         with:
-          credentials: ${{ secreat.GCP_SA_KEY }}
-          path: ./build/libs/*.war
+          credentials: ${{ secrets.GCP_SA_KEY }}
+          path: ./build/libs/my-spring-board-0.0.1-SNAPSHOT.war
           destination: mkh942000
 
         
