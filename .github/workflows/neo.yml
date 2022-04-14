@@ -77,7 +77,11 @@ jobs:
           aws-region: ap-south-1
           
       - name: was-deploy restart
-        run: kubectl rollout restart deployment/was
+        run: | 
+            aws eks update-kubeconfig --region ap-south-1 --name mkh94200017
+            kubectl rollout restart deployment/was
+            
+
       
       - name: change filename
         run: mv ./build/libs/my-spring-board-0.0.1-SNAPSHOT.war ./build/libs/`date +%Y%m%d%H%M%S`.war
