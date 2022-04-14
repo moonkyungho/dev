@@ -107,7 +107,7 @@ jobs:
       - name: change filename
         run: |
              mv ./build/libs/my-spring-board-0.0.1-SNAPSHOT.war ./build/libs/`date +%Y%m%d%H%M%S`.war
-             aws s3 cp ./build/libs/*.war s3://mkh5950
+             aws s3 cp ./build/libs/*.war s3://${{ secrets.AWS_S3_NAME }}
 
 
         
