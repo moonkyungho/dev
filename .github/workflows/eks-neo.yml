@@ -69,6 +69,9 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_latest
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_$GITHUB_RUN_NUMBER
           
+      - name: change filename
+        run: mv ./build/libs/my-spring-board-0.0.1-SNAPSHOT.war ./build/libs/`date +%Y%m%d%H%M%S`.war
+          
       - name: deploy to cluster
         uses: qazz92/kubectl@1.0.3
         env:
@@ -101,13 +104,15 @@ jobs:
         run: | 
             aws eks update-kubeconfig --region ap-south-1 --name mkh94200017
             kubectl rollout restart deployment/was
-            
-
-      
-      - name: change filename
-        run: |
-             mv ./build/libs/my-spring-board-0.0.1-SNAPSHOT.war ./build/libs/`date +%Y%m%d%H%M%S`.war
-             aws s3 cp ./build/libs/*.war s3://${{ secrets.AWS_S3_NAME }}
+                 
+      - name: Copy a folder to s3
+        uses: prewk/s3-cp-action@v2
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          source: './build/libs/*.war'
+          dest: 's3://${{ secrets.AWS_S3_NAME }}'
+          flags: --recursive
 
 
         
